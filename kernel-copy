@@ -1,0 +1,16 @@
+#!/bin/bash
+export KERNEL=kernel8
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+
+mkdir -p ~/boot-rpi/overlays
+mkdir -p ~/modules-rpi
+cd linux
+sudo make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- INSTALL_MOD_PATH=~/modules-rpi modules_install
+sudo cp arch/arm64/boot/Image ~/boot-rpi/$KERNEL.img
+sudo cp arch/arm64/boot/dts/broadcom/*.dtb ~/boot-rpi/
+sudo cp arch/arm64/boot/dts/overlays/*.dtb* ~/boot-rpi/overlays/
+sudo cp arch/arm64/boot/dts/overlays/README ~/boot-rpi/overlays/
+
+sshpass -p !Squish8745 rsync -avz -e ssh ~/boot-rpi/* apcave@192.168.1.3:/boot/. --delete --rsync-path="sudo rsync"
+sshpass -p !Squish8745 rsync -avz -e ssh ~/modules-rpi/lib/modules/* apcave@192.168.1.3:/usr/lib/modules/. --delete --rsync-path="sudo rsync"
