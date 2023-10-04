@@ -3,6 +3,7 @@ export KERNEL=kernel8
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
 sudo apt install git bc bison flex libssl-dev make libc6-dev libncurses5-dev crossbuild-essential-armhf crossbuild-essential-arm64 -y
+git clone https://github.com/ALIBERA/linux_raspberrypi_book.git
 git clone --depth=1 -b rpi-5.4.y https://github.com/raspberrypi/linux
 cd linux
 make clean
