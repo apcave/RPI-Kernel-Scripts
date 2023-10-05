@@ -1,19 +1,18 @@
 #!/bin/bash
-export KERNEL=kernel8
-export ARCH=arm64
-export CROSS_COMPILE=aarch64-linux-gnu-
+export KERNEL=kernel7l
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
 sudo apt install git bc bison flex libssl-dev make libc6-dev libncurses5-dev crossbuild-essential-armhf crossbuild-essential-arm64 -y
 git clone https://github.com/ALIBERA/linux_raspberrypi_book.git
 git clone --depth=1 -b rpi-5.4.y https://github.com/raspberrypi/linux
 cd linux
 make clean
 make bcm2711_defconfig
-if [ -f ~/RPI-Kernel-Scripts/config-ac ]; then
+if [ -f ~/RPI-Kernel-Scripts/config-ac32cc ]; then
     echo Copying config file....
-    cp ~/RPI-Kernel-Scripts/config-ac .config
+    cp ~/RPI-Kernel-Scripts/config-ac32cc .config
 else
     echo Making config file....
     make menuconfig
 fi
-echo 4
-make -j8 Image modules dtbs
+make -j8 zImage modules dtbs
